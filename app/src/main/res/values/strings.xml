@@ -14,11 +14,11 @@ See the License for the specific language governing permissions and
 limitations under the License. -->
 
 <resources>
-    <string name="app_name">Alert Sample</string>
-    <string name="tap_test">Tap to test the alert:</string>
-    <string name="alert_button">Alert</string>
+    <string name="app_name">MySync</string>
+    <string name="tap_test">Start syncing:</string>
+    <string name="alert_button">SYNC</string>
     <string name="alert_message">Click OK to continue, or Cancel to stop:</string>
-    <string name="alert_title">Alert</string>
+    <string name="alert_title">Sync</string>
     <string name="pressed_ok">Pressed OK</string>
     <string name="pressed_cancel">Pressed Cancel</string>
     <string name="ok">OK</string>
