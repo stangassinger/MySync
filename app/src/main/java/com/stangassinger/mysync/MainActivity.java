@@ -15,7 +15,7 @@
  */
 
 
-package com.example.android.alertsample;
+package com.stangassinger.mysync;
 
 
 import android.content.DialogInterface;
