@@ -20,16 +20,23 @@ package com.stangassinger.mysync;
 
 import android.content.DialogInterface;
 import android.os.Bundle;
+import android.os.Environment;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.view.View;
 import android.widget.Toast;
+
+import java.io.File;
+import java.io.FilenameFilter;
+import java.util.Arrays;
 
 
 /**
  * This app shows a button to trigger a standard alert dialog.
  */
 public class MainActivity extends AppCompatActivity {
+    private final String TAG = "MainActivity";
 
     /**
      * Creates the view.
@@ -75,6 +82,30 @@ public class MainActivity extends AppCompatActivity {
 
         // Create and show the AlertDialog.
         myAlertBuilder.show();
+
+        File root = Environment.getExternalStorageDirectory();
+        //String rootPath= root.getPath();
+
+
+        FilenameFilter mp3Filter = new FilenameFilter() {
+            File f;
+            public boolean accept(File dir, String name) {
+
+                if(name.endsWith(".pdf")){
+                    return true;
+                }
+
+                f = new File(dir.getAbsolutePath()+"/"+name);
+
+                return f.isDirectory();
+            }
+        };
+
+        String listOfFileNames[] = root.list(mp3Filter);
+
+        for (String strArr : listOfFileNames) {
+            Log.i(TAG, "------------------>" + strArr);
+        }
 
     }
 }
