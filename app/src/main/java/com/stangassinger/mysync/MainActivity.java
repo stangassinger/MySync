@@ -34,6 +34,8 @@ import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 
+import com.jcraft.jsch.*;
+
 
 /**
  * This app shows a button to trigger a standard alert dialog.
