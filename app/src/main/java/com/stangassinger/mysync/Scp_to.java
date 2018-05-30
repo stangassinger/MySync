@@ -19,9 +19,9 @@ public class Scp_to{
         try{
 
         String lfile = "lFile";
-        String user  = "userName";
+        String user  = "usrName";
 
-        String host  = "hostName";
+        String host  = "192.168.0.105";
         String rfile = "rFile";
 
         JSch jsch=new JSch();
