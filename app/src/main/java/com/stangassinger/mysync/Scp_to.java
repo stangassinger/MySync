@@ -7,8 +7,13 @@ import java.io.*;
 
 
 
-public class scp_to{
+public class Scp_to{
     FileInputStream fis = null;
+
+
+    public void Scp_to(){
+
+    }
 
     public void scp2(){
         try{

@@ -34,7 +34,6 @@ import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 
-import com.jcraft.jsch.*;
 
 
 /**
@@ -43,6 +42,8 @@ import com.jcraft.jsch.*;
 public class MainActivity extends AppCompatActivity {
     private final String TAG = "MainActivity";
     private List<File>  output;
+
+    Scp_to scp_to = new Scp_to();
 
     /**
      * Creates the view.
@@ -97,6 +98,8 @@ public class MainActivity extends AppCompatActivity {
         for (File strArr : output) {
             Log.i(TAG, "------------------>" + strArr.getName());
         }
+
+        scp_to.scp2();
 
 
 
