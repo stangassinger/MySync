@@ -29,7 +29,10 @@ import android.widget.Toast;
 
 import java.io.File;
 import java.io.FilenameFilter;
+import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collections;
+import java.util.List;
 
 
 /**
@@ -37,6 +40,7 @@ import java.util.Arrays;
  */
 public class MainActivity extends AppCompatActivity {
     private final String TAG = "MainActivity";
+    private List<File>  output;
 
     /**
      * Creates the view.
@@ -86,12 +90,20 @@ public class MainActivity extends AppCompatActivity {
         File root = Environment.getExternalStorageDirectory();
         //String rootPath= root.getPath();
 
+        output = this.getFilesOfDirectory(root, "pdf");
 
+        for (File strArr : output) {
+            Log.i(TAG, "------------------>" + strArr.getName());
+        }
+
+
+
+        /*
         FilenameFilter mp3Filter = new FilenameFilter() {
             File f;
             public boolean accept(File dir, String name) {
 
-                if(name.endsWith(".pdf")){
+                if(name.endsWith("*.pdf")){
                     return true;
                 }
 
@@ -105,7 +117,52 @@ public class MainActivity extends AppCompatActivity {
 
         for (String strArr : listOfFileNames) {
             Log.i(TAG, "------------------>" + strArr);
+        }*/
+
+    }
+
+
+
+
+    private  List<File> getFilesOfDirectory(File dir, String fileNamePart) {
+
+        List<File> result;
+
+        if (dir.exists() && dir.isDirectory()
+                && !dir.getAbsolutePath().contains("root")
+                && dir.getAbsolutePath().split("/").length < 10) {
+            Log.i("fileSearch", "search in directory " + dir.getAbsolutePath());
+            File[] files = dir.listFiles();
+
+            if (files != null)
+                result = new ArrayList<File>(Arrays.asList(files));
+            else
+                result = new ArrayList<File>();
         }
 
+        else
+            result = Collections.emptyList();
+
+        /* Filter for interesting files. */
+        List<File> filteredResult = new ArrayList<File>();
+        for (File file : result) {
+            if (file.getAbsolutePath().toLowerCase()
+                    .contains(fileNamePart.toLowerCase()))
+                filteredResult.add(file);
+            // no else.
+        }
+
+        /* Search recursively. */
+        List<File> furtherResults = new ArrayList<File>();
+        for (File file : result) {
+            if (file.isDirectory())
+                furtherResults.addAll(getFilesOfDirectory(file, fileNamePart));
+            // no else.
+        }
+        // end for.
+
+        filteredResult.addAll(furtherResults);
+
+        return filteredResult;
     }
 }
