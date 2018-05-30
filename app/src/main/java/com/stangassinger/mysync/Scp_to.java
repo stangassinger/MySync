@@ -19,14 +19,14 @@ public class Scp_to{
         try{
 
         String lfile = "lFile";
-        String user  = "usrName";
+        String user  = "usr";
 
-        String host  = "192.168.0.105";
+        String host  = "192.168.0.15";
         String rfile = "rFile";
 
         JSch jsch=new JSch();
         Session session=jsch.getSession(user, host, 22);
-        session.setPassword("myPassword");
+        session.setPassword("passwd");
         session.connect();
 
         boolean ptimestamp = true;
