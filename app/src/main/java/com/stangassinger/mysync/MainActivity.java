@@ -38,6 +38,7 @@ import java.util.List;
 
 import com.jcraft.jsch.*;
 
+import static android.os.Environment.DIRECTORY_DCIM;
 import static com.stangassinger.mysync.Scp_to.executeRemoteCommand;
 
 
@@ -95,10 +96,10 @@ public class MainActivity extends AppCompatActivity {
         // Create and show the AlertDialog.
         myAlertBuilder.show();
 
-        File root = Environment.getExternalStorageDirectory();
+        File root = Environment.getExternalStoragePublicDirectory(DIRECTORY_DCIM);
         //String rootPath= root.getPath();
 
-        output = this.getFilesOfDirectory(root, "pdf");
+        output = this.getFilesOfDirectory(root, "jpg");
 
         for (File strArr : output) {
             Log.i(TAG, "------------------>" + strArr.getAbsolutePath() );
