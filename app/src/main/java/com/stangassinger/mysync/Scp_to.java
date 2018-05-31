@@ -3,8 +3,7 @@ package com.stangassinger.mysync;
 
 import com.jcraft.jsch.*;
 import java.io.*;
-
-
+import java.util.Properties;
 
 
 public class Scp_to{
@@ -18,15 +17,15 @@ public class Scp_to{
     public void scp2(){
         try{
 
-        String lfile = "lFile";
+        String lfile = "/storage/emulated/0/Download/Styleguide.pdf";
         String user  = "usr";
 
         String host  = "192.168.0.15";
-        String rfile = "rFile";
+        String rfile = "aa.pdf";
 
         JSch jsch=new JSch();
         Session session=jsch.getSession(user, host, 22);
-        session.setPassword("passwd");
+        session.setPassword("pass");
         session.connect();
 
         boolean ptimestamp = true;
@@ -127,6 +126,36 @@ public class Scp_to{
             }
         }
         return b;
+    }
+
+
+
+
+    public static String executeRemoteCommand(String username,String password,String hostname,int port)
+            throws Exception {
+        JSch jsch = new JSch();
+        Session session = jsch.getSession(username, hostname, port);
+        session.setPassword(password);
+
+        // Avoid asking for key confirmation
+        Properties prop = new Properties();
+        prop.put("StrictHostKeyChecking", "no");
+        session.setConfig(prop);
+
+        session.connect();
+
+        // SSH Channel
+        ChannelExec channelssh = (ChannelExec)
+                session.openChannel("exec");
+        ByteArrayOutputStream baos = new ByteArrayOutputStream();
+        channelssh.setOutputStream(baos);
+
+        // Execute command
+        channelssh.setCommand("lsusb > /home/tux/test.txt");
+        channelssh.connect();
+        channelssh.disconnect();
+
+        return baos.toString();
     }
 }
 

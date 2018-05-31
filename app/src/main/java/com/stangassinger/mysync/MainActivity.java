@@ -19,6 +19,7 @@ package com.stangassinger.mysync;
 
 
 import android.content.DialogInterface;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Environment;
 import android.support.v7.app.AlertDialog;
@@ -34,6 +35,10 @@ import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 
+
+import com.jcraft.jsch.*;
+
+import static com.stangassinger.mysync.Scp_to.executeRemoteCommand;
 
 
 /**
@@ -96,10 +101,23 @@ public class MainActivity extends AppCompatActivity {
         output = this.getFilesOfDirectory(root, "pdf");
 
         for (File strArr : output) {
-            Log.i(TAG, "------------------>" + strArr.getName());
+            Log.i(TAG, "------------------>" + strArr.getAbsolutePath() );
         }
 
-        scp_to.scp2();
+        //scp_to.scp2();
+
+        new AsyncTask<Integer, Void, Void>(){
+            @Override
+            protected Void doInBackground(Integer... params) {
+                try {
+                    executeRemoteCommand("usr", "pass","192.168.0.15", 22);
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+                return null;
+            }
+        }.execute(1);
+
 
 
 
@@ -125,6 +143,8 @@ public class MainActivity extends AppCompatActivity {
         }*/
 
     }
+
+
 
 
 
@@ -171,3 +191,7 @@ public class MainActivity extends AppCompatActivity {
         return filteredResult;
     }
 }
+
+
+
+
