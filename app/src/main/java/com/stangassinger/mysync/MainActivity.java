@@ -40,6 +40,7 @@ import com.jcraft.jsch.*;
 
 import static android.os.Environment.DIRECTORY_DCIM;
 import static com.stangassinger.mysync.Scp_to.executeRemoteCommand;
+import static com.stangassinger.mysync.Scp_to.executeRemoteSCP;
 
 
 /**
@@ -110,7 +111,9 @@ public class MainActivity extends AppCompatActivity {
             @Override
             protected Void doInBackground(Integer... params) {
                 try {
-                    executeRemoteCommand("usr", "pass","192.168.0.15", 22);
+                    //executeRemoteCommand("usr", "pass","192.168.0.15", 22);
+                    executeRemoteSCP("usr", "pass","192.168.0.15", 22,
+                            "/storage/emulated/0/DCIM/Camera/IMG_20180525_144925397_HDR.jpg", "pic.jpg");
                 } catch (Exception e) {
                     e.printStackTrace();
                 }
