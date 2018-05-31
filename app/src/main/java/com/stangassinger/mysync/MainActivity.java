@@ -112,7 +112,7 @@ public class MainActivity extends AppCompatActivity {
             protected Void doInBackground(Integer... params) {
                 try {
                     //executeRemoteCommand("usr", "pass","192.168.0.15", 22);
-                    executeRemoteSCP("usr", "pass","192.168.0.15", 22,
+                    executeRemoteSCP(Conf.USERNAME, Conf.PASSWORD,Conf.HOSTNAME, 22,
                             "/storage/emulated/0/DCIM/Camera/IMG_20180525_144925397_HDR.jpg", "pic.jpg");
                 } catch (Exception e) {
                     e.printStackTrace();
