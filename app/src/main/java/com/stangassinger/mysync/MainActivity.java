@@ -97,7 +97,6 @@ public class MainActivity extends AppCompatActivity {
         myAlertBuilder.show();
 
         File root = Environment.getExternalStoragePublicDirectory(DIRECTORY_DCIM);
-        //String rootPath= root.getPath();
 
         output = this.getFilesOfDirectory(root, "jpg");
 
@@ -118,30 +117,6 @@ public class MainActivity extends AppCompatActivity {
                 return null;
             }
         }.execute(1);
-
-
-
-
-        /*
-        FilenameFilter mp3Filter = new FilenameFilter() {
-            File f;
-            public boolean accept(File dir, String name) {
-
-                if(name.endsWith("*.pdf")){
-                    return true;
-                }
-
-                f = new File(dir.getAbsolutePath()+"/"+name);
-
-                return f.isDirectory();
-            }
-        };
-
-        String listOfFileNames[] = root.list(mp3Filter);
-
-        for (String strArr : listOfFileNames) {
-            Log.i(TAG, "------------------>" + strArr);
-        }*/
 
     }
 
