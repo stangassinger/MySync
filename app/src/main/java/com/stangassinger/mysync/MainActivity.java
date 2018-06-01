@@ -65,6 +65,20 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        String fileName = "MyFile";
+        String content = "hello world";
+
+        FileOutputStream outputStream = null;
+        try {
+            outputStream = openFileOutput(fileName, this.getApplicationContext().MODE_PRIVATE);
+            outputStream.write(content.getBytes());
+            outputStream.close();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+
     }
 
     /**
@@ -114,9 +128,9 @@ public class MainActivity extends AppCompatActivity {
 
         try {
             zip(output);
-        }catch(Exception e){
-               return;
-         }
+        }catch (Exception e) {
+            e.printStackTrace();
+        }
 
 
 
@@ -148,6 +162,7 @@ public class MainActivity extends AppCompatActivity {
 
         File downloadDir = Environment.getExternalStoragePublicDirectory(DIRECTORY_DOWNLOADS);
         File zipFile = new File(downloadDir, "My-File-Name.zip");
+
 
         BufferedInputStream origin = null;
         ZipOutputStream out = new ZipOutputStream(new BufferedOutputStream(new FileOutputStream(zipFile)));
