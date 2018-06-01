@@ -19,6 +19,7 @@ package com.stangassinger.mysync;
 
 
 import android.content.DialogInterface;
+import android.media.MediaScannerConnection;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Environment;
@@ -28,11 +29,15 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Toast;
 
+import java.io.BufferedReader;
+import java.io.BufferedWriter;
 import java.io.File;
 import java.io.BufferedInputStream;
 import java.io.BufferedOutputStream;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
+import java.io.FileReader;
+import java.io.FileWriter;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
@@ -65,6 +70,70 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+
+
+
+
+
+        try {
+            // Creates a file in the primary external storage space of the
+            // current application.
+            // If the file does not exists, it is created.
+
+            File testFile = new File(this.getExternalFilesDir(Environment.DIRECTORY_DOWNLOADS), "TestFile.txt");
+            if (!testFile.exists())
+                testFile.createNewFile();
+
+            // Adds a line to the file
+            BufferedWriter writer = new BufferedWriter(new FileWriter(testFile, false /*append*/));
+            writer.write("This is a test file...");
+            writer.flush();
+            writer.close();
+
+            // Refresh the data so it can seen when the device is plugged in a
+            // computer. You may have to unplug and replug the device to see the
+            // latest changes. This is not necessary if the user should not modify
+            // the files.
+            MediaScannerConnection.scanFile(this,
+                    new String[]{testFile.toString()},
+                    null,
+                    null);
+
+        } catch (Exception e) {
+            Log.e("ReadWriteFile", "Unable to write to the TestFile.txt file.");
+        }
+
+        ///////////////////////////////////////////////////////
+
+
+
+        String textFromFile = "";
+// Gets the file from the primary external storage space of the
+// current application.
+        File testFile = new File(this.getExternalFilesDir(Environment.DIRECTORY_DOWNLOADS), "TestFile.txt");
+        if (testFile != null) {
+            StringBuilder stringBuilder = new StringBuilder();
+            // Reads the data from the file
+            BufferedReader reader = null;
+            try {
+                reader = new BufferedReader(new FileReader(testFile));
+                String line = "uhuh";
+
+                while ((line = reader.readLine()) != null) {
+                    textFromFile += line.toString();
+                    textFromFile += "\n";
+                }
+                reader.close();
+
+            } catch (Exception e) {
+                Log.e("ReadWriteFile", "Unable to read the TestFile.txt file.");
+            }
+        }else{
+            Log.e("ReadWriteFile", "No File!");
+        }
+
+        Log.e("ReadWriteFile", "--> " + textFromFile);
 
     }
 
