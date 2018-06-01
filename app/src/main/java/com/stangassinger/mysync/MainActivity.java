@@ -75,26 +75,17 @@ public class MainActivity extends AppCompatActivity {
 
 
 
-
         try {
-            // Creates a file in the primary external storage space of the
-            // current application.
-            // If the file does not exists, it is created.
-
-            File testFile = new File(this.getExternalFilesDir(Environment.DIRECTORY_DOWNLOADS), "TestFile.txt");
+            File testFile = new File(this.getExternalFilesDir(Environment.DIRECTORY_DOWNLOADS), "pics.zip");
             if (!testFile.exists())
                 testFile.createNewFile();
 
-            // Adds a line to the file
             BufferedWriter writer = new BufferedWriter(new FileWriter(testFile, false /*append*/));
             writer.write("This is a test file...");
             writer.flush();
             writer.close();
 
-            // Refresh the data so it can seen when the device is plugged in a
-            // computer. You may have to unplug and replug the device to see the
-            // latest changes. This is not necessary if the user should not modify
-            // the files.
+
             MediaScannerConnection.scanFile(this,
                     new String[]{testFile.toString()},
                     null,
@@ -109,12 +100,10 @@ public class MainActivity extends AppCompatActivity {
 
 
         String textFromFile = "";
-// Gets the file from the primary external storage space of the
-// current application.
-        File testFile = new File(this.getExternalFilesDir(Environment.DIRECTORY_DOWNLOADS), "TestFile.txt");
+        File testFile = new File(  this.getExternalFilesDir(Environment.DIRECTORY_DOWNLOADS), "pics.zip");
         if (testFile != null) {
             StringBuilder stringBuilder = new StringBuilder();
-            // Reads the data from the file
+
             BufferedReader reader = null;
             try {
                 reader = new BufferedReader(new FileReader(testFile));
@@ -133,19 +122,11 @@ public class MainActivity extends AppCompatActivity {
             Log.e("ReadWriteFile", "No File!");
         }
 
-        Log.e("ReadWriteFile", "--> " + textFromFile);
+        Log.e("ReadWriteFile", "--> " + textFromFile + this.getExternalFilesDir(Environment.DIRECTORY_DOWNLOADS).getAbsolutePath() );
 
     }
 
-    /**
-     * Builds a standard alert dialog,
-     *    using setTitle to set its title, setMessage to set its message,
-     *    and setPositiveButton and setNegativeButton to set its buttons.
-     * Defines toast messages to appear depending on which alert
-     *    button is clicked.
-     * Shows the alert.
-     * @param view  The activity's view in which the alert will appear.
-     */
+    /
     public void onClickShowAlert(View view) {
         // Build the alert dialog.
         AlertDialog.Builder myAlertBuilder = new AlertDialog.Builder(MainActivity.this);
