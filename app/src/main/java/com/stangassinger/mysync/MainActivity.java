@@ -29,11 +29,15 @@ import android.view.View;
 import android.widget.Toast;
 
 import java.io.File;
-import java.io.FilenameFilter;
+import java.io.BufferedInputStream;
+import java.io.BufferedOutputStream;
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
+import java.util.zip.*;
 
 
 import com.jcraft.jsch.*;
@@ -100,10 +104,12 @@ public class MainActivity extends AppCompatActivity {
         File root = Environment.getExternalStoragePublicDirectory(DIRECTORY_DCIM);
 
         output = this.getFilesOfDirectory(root, "jpg");
-
+        
         for (File strArr : output) {
             Log.i(TAG, "------------------>" + strArr.getAbsolutePath() );
         }
+
+
 
         //scp_to.scp2();
 
@@ -121,6 +127,44 @@ public class MainActivity extends AppCompatActivity {
             }
         }.execute(1);
 
+    }
+
+
+
+    public static void zip( List<File> files, File zipFile ) throws Exception {
+        final int BUFFER_SIZE = 2048;
+
+        BufferedInputStream origin = null;
+        ZipOutputStream out = new ZipOutputStream(new BufferedOutputStream(new FileOutputStream(zipFile)));
+
+        try {
+            byte data[] = new byte[BUFFER_SIZE];
+
+            for ( File file : files ) {
+                FileInputStream fileInputStream = new FileInputStream( file );
+
+                origin = new BufferedInputStream(fileInputStream, BUFFER_SIZE);
+
+                String filePath = file.getAbsolutePath();
+
+                try {
+                    ZipEntry entry = new ZipEntry( filePath.substring( filePath.lastIndexOf("/") + 1 ) );
+
+                    out.putNextEntry(entry);
+
+                    int count;
+                    while ((count = origin.read(data, 0, BUFFER_SIZE)) != -1) {
+                        out.write(data, 0, count);
+                    }
+                }
+                finally {
+                    origin.close();
+                }
+            }
+        }
+        finally {
+            out.close();
+        }
     }
 
 
