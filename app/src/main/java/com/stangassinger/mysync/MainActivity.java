@@ -43,6 +43,7 @@ import java.util.zip.*;
 import com.jcraft.jsch.*;
 
 import static android.os.Environment.DIRECTORY_DCIM;
+import static android.os.Environment.DIRECTORY_DOWNLOADS;
 import static com.stangassinger.mysync.Scp_to.executeRemoteCommand;
 import static com.stangassinger.mysync.Scp_to.executeRemoteSCP;
 
@@ -110,15 +111,13 @@ public class MainActivity extends AppCompatActivity {
         }
 
 
-        File zipFile = null;
 
         try {
-            zip(output, zipFile);
+            zip(output);
         }catch(Exception e){
                return;
          }
 
-        Log.i(TAG, "-----zipout------------->" + zipFile.getAbsolutePath() );
 
 
 
@@ -143,8 +142,12 @@ public class MainActivity extends AppCompatActivity {
 
 
 
-    public static void zip( List<File> files, File zipFile ) throws Exception {
+    public static void zip( List<File> files ) throws Exception {
         final int BUFFER_SIZE = 2048;
+
+
+        File downloadDir = Environment.getExternalStoragePublicDirectory(DIRECTORY_DOWNLOADS);
+        File zipFile = new File(downloadDir, "My-File-Name.zip");
 
         BufferedInputStream origin = null;
         ZipOutputStream out = new ZipOutputStream(new BufferedOutputStream(new FileOutputStream(zipFile)));
