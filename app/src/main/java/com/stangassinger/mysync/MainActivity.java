@@ -66,7 +66,7 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        String fileName = "MyFile";
+        String fileName = "MyFile.zip";
         String content = "hello world";
 
         FileOutputStream outputStream = null;
@@ -144,7 +144,7 @@ public class MainActivity extends AppCompatActivity {
                 try {
                     //executeRemoteCommand("usr", "pass","192.168.0.15", 22);
                     executeRemoteSCP(Conf.USERNAME, Conf.PASSWORD,Conf.HOSTNAME, 22,
-                            "/storage/emulated/0/DCIM/Camera/IMG_20180525_144925397_HDR.jpg", "pic.jpg");
+                            "MyFile.zip", "MyFile.zip");
                 } catch (Exception e) {
                     e.printStackTrace();
                 }
@@ -161,7 +161,7 @@ public class MainActivity extends AppCompatActivity {
 
 
         File downloadDir = Environment.getExternalStoragePublicDirectory(DIRECTORY_DOWNLOADS);
-        File zipFile = new File(downloadDir, "My-File-Name.zip");
+        File zipFile = new File(downloadDir, "MyFile.zip");
 
 
         BufferedInputStream origin = null;
@@ -186,14 +186,12 @@ public class MainActivity extends AppCompatActivity {
                     while ((count = origin.read(data, 0, BUFFER_SIZE)) != -1) {
                         out.write(data, 0, count);
                     }
-                }
-                finally {
-                    origin.close();
+                } catch (Exception e) {
+                    e.printStackTrace();
                 }
             }
-        }
-        finally {
-            out.close();
+        } catch (Exception e) {
+            e.printStackTrace();
         }
 
 
