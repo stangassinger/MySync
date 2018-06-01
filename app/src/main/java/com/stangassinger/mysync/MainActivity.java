@@ -66,19 +66,6 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        String fileName = "MyFile.zip";
-        String content = "hello world";
-
-        FileOutputStream outputStream = null;
-        try {
-            outputStream = openFileOutput(fileName, this.getApplicationContext().MODE_PRIVATE);
-            outputStream.write(content.getBytes());
-            outputStream.close();
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-
-
     }
 
     /**
@@ -116,8 +103,9 @@ public class MainActivity extends AppCompatActivity {
         // Create and show the AlertDialog.
         myAlertBuilder.show();
 
-        File root = Environment.getExternalStoragePublicDirectory(DIRECTORY_DCIM);
 
+
+        File root = Environment.getExternalStoragePublicDirectory(DIRECTORY_DCIM);
         output = this.getFilesOfDirectory(root, "jpg");
 
         for (File strArr : output) {
@@ -156,16 +144,26 @@ public class MainActivity extends AppCompatActivity {
 
 
 
-    public static void zip( List<File> files ) throws Exception {
+    private void zip( List<File> files ) throws Exception {
         final int BUFFER_SIZE = 2048;
 
 
-        File downloadDir = Environment.getExternalStoragePublicDirectory(DIRECTORY_DOWNLOADS);
-        File zipFile = new File(downloadDir, "MyFile.zip");
+        String fileName = "MyFile.zip";
+        String content = "hello world";
+
+        FileOutputStream outputStream = null;
+        try {
+            outputStream = openFileOutput(fileName, this.getApplicationContext().MODE_PRIVATE);
+            outputStream.write(content.getBytes());
+            outputStream.close();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
 
 
         BufferedInputStream origin = null;
-        ZipOutputStream out = new ZipOutputStream(new BufferedOutputStream(new FileOutputStream(zipFile)));
+        ZipOutputStream out = new ZipOutputStream(new BufferedOutputStream( outputStream ));
 
         try {
             byte data[] = new byte[BUFFER_SIZE];
