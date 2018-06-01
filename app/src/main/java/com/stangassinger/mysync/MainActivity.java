@@ -104,10 +104,22 @@ public class MainActivity extends AppCompatActivity {
         File root = Environment.getExternalStoragePublicDirectory(DIRECTORY_DCIM);
 
         output = this.getFilesOfDirectory(root, "jpg");
-        
+
         for (File strArr : output) {
             Log.i(TAG, "------------------>" + strArr.getAbsolutePath() );
         }
+
+
+        File zipFile = null;
+
+        try {
+            zip(output, zipFile);
+        }catch(Exception e){
+               return;
+         }
+
+        Log.i(TAG, "-----zipout------------->" + zipFile.getAbsolutePath() );
+
 
 
 
@@ -165,6 +177,8 @@ public class MainActivity extends AppCompatActivity {
         finally {
             out.close();
         }
+
+
     }
 
 
