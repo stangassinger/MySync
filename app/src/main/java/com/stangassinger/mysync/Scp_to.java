@@ -163,10 +163,9 @@ public class Scp_to{
         channelssh.setOutputStream(baos);
 
         // Execute command
-        channelssh.setCommand("lsusb > /home/" + Conf.USERNAME + "/test.txt");
+        channelssh.setCommand("ls");
         channelssh.connect();
         channelssh.disconnect();
-
         return baos.toString();
     }
 
@@ -175,14 +174,18 @@ public class Scp_to{
     public static void checkHosts(String subnet)
             throws Exception {
         int timeout=500;
-        String out = "";
+        String out = "SSH_ERROR";
         for (int i=100;i<120;i++){
             String host=subnet + "." + i;
             if (InetAddress.getByName(host).isReachable(timeout)){
                 Log.i(TAG, host + " is reachable" );
 
-
-                out = executeRemoteCommand( Conf.USERNAME, host , 22);
+                try{
+                    out = executeRemoteCommand( Conf.USERNAME, host , 22);
+                    Log.i(TAG, host + " is working :-)    " + out);
+                } catch (Exception e) {
+                    //e.printStackTrace();
+                }
             }
         }
     }
