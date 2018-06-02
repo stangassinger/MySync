@@ -38,8 +38,10 @@ import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.FileReader;
 import java.io.FileWriter;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Calendar;
 import java.util.Collections;
 import java.util.List;
 import java.util.zip.*;
@@ -70,11 +72,6 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-
-
-
-
-
     }
 
 
@@ -131,11 +128,11 @@ public class MainActivity extends AppCompatActivity {
         new AsyncTask<Integer, Void, Void>(){
             @Override
             protected Void doInBackground(Integer... params) {
-
+                String timeStamp = new SimpleDateFormat("yyyyMMdd_HHmmss").format(Calendar.getInstance().getTime());
                 try {
                     //executeRemoteCommand("usr", "pass","192.168.0.15", 22);
                     executeRemoteSCP(Conf.USERNAME, Conf.PASSWORD,Conf.HOSTNAME, 22,
-                            testFile.getAbsolutePath(), "MyFile.zip");
+                            testFile.getAbsolutePath(), "pic_" + timeStamp + ".zip");
                 } catch (Exception e) {
                     e.printStackTrace();
                 }
