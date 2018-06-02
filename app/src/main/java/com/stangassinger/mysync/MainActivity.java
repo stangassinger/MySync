@@ -61,9 +61,11 @@ import static com.stangassinger.mysync.Scp_to.executeRemoteSCP;
  * Generate it with:
  * ssh-keygen -t rsa -b 4096
  * put the public-key and private-key into Conf.java file
- * the private key must have a \n on every end of line !!
+ * the private key must have a \n on every end of line in
+ * the Conf.java file.
  * then copy the public key to the server into
- * ~/.ssh directory and rename it to authorized_keys
+ * ~/.ssh directory and then
+ * cat id_rsa.pub >> authorized_keys
  */
 public class MainActivity extends AppCompatActivity {
     private final String TAG = "MainActivity";
