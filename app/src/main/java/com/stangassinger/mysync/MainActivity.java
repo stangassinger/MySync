@@ -38,6 +38,7 @@ import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.FileReader;
 import java.io.FileWriter;
+import java.net.InetAddress;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -81,6 +82,21 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        try{
+            checkHosts("192.168.0");
+        }catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    private void checkHosts(String subnet) throws Exception {
+        int timeout=1000;
+        for (int i=1;i<255;i++){
+            String host=subnet + "." + i;
+            if (InetAddress.getByName(host).isReachable(timeout)){
+                System.out.println(host + " is reachable");
+            }
+        }
     }
 
 
