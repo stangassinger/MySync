@@ -56,7 +56,14 @@ import static com.stangassinger.mysync.Scp_to.executeRemoteSCP;
 
 
 /**
- * This app shows a button to trigger a standard alert dialog.
+ * Syncing pictures with PC
+ * For the transfer over ssh a private and public key is needed
+ * Generate it with:
+ * ssh-keygen -t rsa -b 4096
+ * put the public-key and private-key into Conf.java file
+ * the private key must have a \n on every end of line !!
+ * then copy the public key to the server into
+ * ~/.ssh directory and rename it to authorized_keys
  */
 public class MainActivity extends AppCompatActivity {
     private final String TAG = "MainActivity";
