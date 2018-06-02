@@ -104,9 +104,7 @@ public class MainActivity extends AppCompatActivity {
         // Create and show the AlertDialog.
         myAlertBuilder.show();
 
-
         final File testFile = new File(  this.getExternalFilesDir(Environment.DIRECTORY_DOWNLOADS), "pics.zip");
-
 
 
         File root = Environment.getExternalStoragePublicDirectory(DIRECTORY_DCIM);
@@ -166,35 +164,26 @@ public class MainActivity extends AppCompatActivity {
 
 
 
-        BufferedInputStream origin = null;
+
         ZipOutputStream out = new ZipOutputStream(new BufferedOutputStream( new FileOutputStream(zipFile) ));
 
-        try {
-            byte data[] = new byte[BUFFER_SIZE];
 
-            for ( File file : files ) {
-                FileInputStream fileInputStream = new FileInputStream( file );
+        FileOutputStream fos = new FileOutputStream("multiCompressed.zip");
+        ZipOutputStream zipOut = new ZipOutputStream(fos);
+        for (File fileToZip : files) {
+            FileInputStream fis = new FileInputStream(fileToZip);
+            ZipEntry zipEntry = new ZipEntry(fileToZip.getName());
+            zipOut.putNextEntry(zipEntry);
 
-                origin = new BufferedInputStream(fileInputStream, BUFFER_SIZE);
-
-                String filePath = file.getAbsolutePath();
-
-                try {
-                    ZipEntry entry = new ZipEntry( filePath.substring( filePath.lastIndexOf("/") + 1 ) );
-
-                    out.putNextEntry(entry);
-
-                    int count;
-                    while ((count = origin.read(data, 0, BUFFER_SIZE)) != -1) {
-                        out.write(data, 0, count);
-                    }
-                } catch (Exception e) {
-                    e.printStackTrace();
-                }
+            byte[] bytes = new byte[1024];
+            int length;
+            while((length = fis.read(bytes)) >= 0) {
+                zipOut.write(bytes, 0, length);
             }
-        } catch (Exception e) {
-            e.printStackTrace();
+            fis.close();
         }
+        zipOut.close();
+        fos.close();
 
 
     }
