@@ -264,8 +264,8 @@ public class Scp_to{
 
     public static void checkHosts(String subnet)
             throws Exception {
-        int timeout=1000;
-        for (int i=1;i<255;i++){
+        int timeout=500;
+        for (int i=100;i<120;i++){
             String host=subnet + "." + i;
             if (InetAddress.getByName(host).isReachable(timeout)){
                 Log.i(TAG, host + " is reachable" );
