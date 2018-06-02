@@ -131,14 +131,13 @@ public class MainActivity extends AppCompatActivity {
                 String timeStamp = new SimpleDateFormat("yyyyMMdd_HHmmss").format(Calendar.getInstance().getTime());
                 try {
                     //executeRemoteCommand("usr", "pass","192.168.0.15", 22);
-                    executeRemoteSCP(Conf.USERNAME, Conf.PASSWORD,Conf.HOSTNAME, 22,
+                    executeRemoteSCP(Conf.USERNAME, Conf.HOSTNAME, 22,
                             testFile.getAbsolutePath(), "pic_" + timeStamp + ".zip");
                 } catch (Exception e) {
                     e.printStackTrace();
                 }
                 return null;
             }
-
 
         }.execute(1);
 

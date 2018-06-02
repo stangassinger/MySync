@@ -131,13 +131,14 @@ public class Scp_to{
 
 
 
-    public static void executeRemoteSCP(String username,String password,String hostname,int port,
+    public static void executeRemoteSCP(String username,String hostname,int port,
                                            String lfile, String rfile)
             throws Exception {
         try {
+
             JSch jsch=new JSch();
             Session session=jsch.getSession(username, hostname, 22);
-            session.setPassword(password);
+            jsch.addIdentity("my key", Conf.PRIVATEKEY.getBytes(), Conf.PUBLIC_KEY.getBytes(), Conf.PASSPHRASE.getBytes() );
 
 
             // Avoid asking for key confirmation
