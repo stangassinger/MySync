@@ -75,35 +75,6 @@ public class MainActivity extends AppCompatActivity {
 
 
 
-        ///////////////////////////////////////////////////////
-
-
-
-        String textFromFile = "";
-        File testFile = new File(  this.getExternalFilesDir(Environment.DIRECTORY_DOWNLOADS), "pics.zip");
-        if (testFile != null) {
-            StringBuilder stringBuilder = new StringBuilder();
-
-            BufferedReader reader = null;
-            try {
-                reader = new BufferedReader(new FileReader(testFile));
-                String line = "uhuh";
-
-                while ((line = reader.readLine()) != null) {
-                    textFromFile += line.toString();
-                    textFromFile += "\n";
-                }
-                reader.close();
-
-            } catch (Exception e) {
-                Log.e("ReadWriteFile", "Unable to read the TestFile.txt file.");
-            }
-        }else{
-            Log.e("ReadWriteFile", "No File!");
-        }
-
-        Log.e("ReadWriteFile", "--> " + textFromFile + this.getExternalFilesDir(Environment.DIRECTORY_DOWNLOADS).getAbsolutePath() );
-
     }
 
 
