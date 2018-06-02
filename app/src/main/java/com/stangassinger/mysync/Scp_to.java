@@ -171,7 +171,7 @@ public class Scp_to{
 
 
 
-    public static void checkHosts(String subnet)
+    public static String checkHosts(String subnet)
             throws Exception {
         int timeout=500;
         String out = "SSH_ERROR";
@@ -181,13 +181,14 @@ public class Scp_to{
                 Log.i(TAG, host + " is reachable" );
 
                 try{
-                    out = executeRemoteCommand( Conf.USERNAME, host , 22);
-                    Log.i(TAG, host + " is working :-)    " + out);
+                    executeRemoteCommand( Conf.USERNAME, host , 22);
+                    return host;
                 } catch (Exception e) {
                     //e.printStackTrace();
                 }
             }
         }
+        return "";
     }
 
 

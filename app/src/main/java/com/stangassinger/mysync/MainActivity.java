@@ -71,11 +71,13 @@ public class MainActivity extends AppCompatActivity {
         new AsyncTask<Integer, Void, Void>(){
             @Override
             protected Void doInBackground(Integer... params) {
+                String host = "";
                 try {
-                    checkHosts("192.168.0");
+                    host = checkHosts("192.168.0");
                 } catch (Exception e) {
                     e.printStackTrace();
                 }
+                Log.i(TAG, "---  valid hostname  ------>" + host );
                 return null;
             }
         }.execute(1);
