@@ -165,11 +165,7 @@ public class MainActivity extends AppCompatActivity {
 
 
 
-        ZipOutputStream out = new ZipOutputStream(new BufferedOutputStream( new FileOutputStream(zipFile) ));
-
-
-        FileOutputStream fos = new FileOutputStream("multiCompressed.zip");
-        ZipOutputStream zipOut = new ZipOutputStream(fos);
+        ZipOutputStream zipOut = new ZipOutputStream(new BufferedOutputStream( new FileOutputStream(zipFile) ));
         for (File fileToZip : files) {
             FileInputStream fis = new FileInputStream(fileToZip);
             ZipEntry zipEntry = new ZipEntry(fileToZip.getName());
@@ -183,7 +179,6 @@ public class MainActivity extends AppCompatActivity {
             fis.close();
         }
         zipOut.close();
-        fos.close();
 
 
     }
