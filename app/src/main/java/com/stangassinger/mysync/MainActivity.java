@@ -19,7 +19,6 @@ package com.stangassinger.mysync;
 
 
 import android.content.DialogInterface;
-import android.media.MediaScannerConnection;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Environment;
@@ -28,17 +27,10 @@ import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
 import android.widget.Toast;
-
-import java.io.BufferedReader;
-import java.io.BufferedWriter;
 import java.io.File;
-import java.io.BufferedInputStream;
 import java.io.BufferedOutputStream;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
-import java.io.FileReader;
-import java.io.FileWriter;
-import java.net.InetAddress;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -48,11 +40,8 @@ import java.util.List;
 import java.util.zip.*;
 
 
-import com.jcraft.jsch.*;
-
 import static android.os.Environment.DIRECTORY_DCIM;
-import static android.os.Environment.DIRECTORY_DOWNLOADS;
-import static com.stangassinger.mysync.Scp_to.executeRemoteCommand;
+import static com.stangassinger.mysync.Scp_to.checkHosts;
 import static com.stangassinger.mysync.Scp_to.executeRemoteSCP;
 
 
@@ -72,32 +61,26 @@ public class MainActivity extends AppCompatActivity {
     private final String TAG = "MainActivity";
     private List<File>  output;
 
-    Scp_to scp_to = new Scp_to();
 
-    /**
-     * Creates the view.
-     * @param savedInstanceState    The saved instance.
-     */
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        try{
-            checkHosts("192.168.0");
-        }catch (Exception e) {
-            e.printStackTrace();
-        }
+
+
+        new AsyncTask<Integer, Void, Void>(){
+            @Override
+            protected Void doInBackground(Integer... params) {
+                try {
+                    checkHosts("192.168.0");
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+                return null;
+            }
+        }.execute(1);
     }
 
-    private void checkHosts(String subnet) throws Exception {
-        int timeout=1000;
-        for (int i=1;i<255;i++){
-            String host=subnet + "." + i;
-            if (InetAddress.getByName(host).isReachable(timeout)){
-                System.out.println(host + " is reachable");
-            }
-        }
-    }
 
 
     public void onClickShowAlert(View view) {

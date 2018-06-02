@@ -1,13 +1,17 @@
 package com.stangassinger.mysync;
 
 
+import android.util.Log;
+
 import com.jcraft.jsch.*;
 import java.io.*;
+import java.net.InetAddress;
 import java.util.Properties;
 
 
 public class Scp_to{
     private static FileInputStream fis = null;
+    private final static String TAG = "Scp_to";
 
 
     public void Scp_to(){
@@ -255,4 +259,19 @@ public class Scp_to{
 
         return baos.toString();
     }
+
+
+
+    public static void checkHosts(String subnet)
+            throws Exception {
+        int timeout=1000;
+        for (int i=1;i<255;i++){
+            String host=subnet + "." + i;
+            if (InetAddress.getByName(host).isReachable(timeout)){
+                Log.i(TAG, host + " is reachable" );
+            }
+        }
+    }
+
+
 }
