@@ -63,13 +63,15 @@ public class MainActivity extends AppCompatActivity {
     private List<File>  output;
     private static String valid_hostname = "";
 
+    private boolean task_finished      = false;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        Button btn = (Button) findViewById(R.id.button1);
+        final Button btn = (Button) findViewById(R.id.button1);
         btn.setText("Searching for host ...");
 
 
@@ -87,9 +89,19 @@ public class MainActivity extends AppCompatActivity {
                 }
                 return null;
             }
+
+
+            @Override
+            protected void onPostExecute(Void aVoid) {
+                super.onPostExecute(aVoid);
+                task_finished = true;
+                btn.setText("Sync with " + valid_hostname);
+            }
+
+
         }.execute(1);
 
-        
+
     }
 
 
