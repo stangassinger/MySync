@@ -44,6 +44,7 @@ import java.util.zip.*;
 import static android.os.Environment.DIRECTORY_DCIM;
 import static com.stangassinger.mysync.Scp_to.checkHosts;
 import static com.stangassinger.mysync.Scp_to.executeRemoteSCP;
+import static com.stangassinger.mysync.Scp_to.zipPics;
 
 
 /**
@@ -62,6 +63,7 @@ public class MainActivity extends AppCompatActivity {
     private final String TAG = "MainActivity";
     private static String valid_hostname = "";
     private boolean task_finished      = false;
+    private static boolean zipFile_ready      = false;
 
 
     @Override
@@ -132,91 +134,72 @@ public class MainActivity extends AppCompatActivity {
 
         // Create and show the AlertDialog.
         myAlertBuilder.show();
-
-
-
-        try {
-            zipPics();
-        }catch (Exception e) {
-            e.printStackTrace();
-        }
-
-
-
-
-
-        //scp_to.scp2();
         final File pics_zip_location = new File(  this.getExternalFilesDir(Environment.DIRECTORY_DOWNLOADS), "pics.zip");
+        final File DOWNLOAD_DIR = this.getExternalFilesDir(Environment.DIRECTORY_DOWNLOADS);
+
+        final List<File> all_pic_files;
+        File root = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DCIM  + "/Camera");
+        all_pic_files = this.getFilesOfDirectory(root, "jpg");
+
+
         new AsyncTask<Integer, Void, Void>(){
             @Override
             protected Void doInBackground(Integer... params) {
-                String timeStamp = new SimpleDateFormat("yyyyMMdd_HHmmss").format(Calendar.getInstance().getTime());
                 try {
-                    //executeRemoteCommand("usr", "pass","192.168.0.15", 22);
-                    executeRemoteSCP(Conf.USERNAME, valid_hostname, 22,
-                            pics_zip_location.getAbsolutePath(), "pic_" + timeStamp + ".zip");
+                        File zipFile = null;
+                        zipFile = new File(DOWNLOAD_DIR, "pics.zip");
+                        if (!zipFile.exists())
+                            zipFile.createNewFile();
+
+                    zipPics(all_pic_files, zipFile);
                 } catch (Exception e) {
                     e.printStackTrace();
                 }
                 return null;
             }
 
+
+            @Override
+            protected void onPostExecute(Void aVoid) {
+                super.onPostExecute(aVoid);
+                zipFile_ready = true;
+                return;
+            }
         }.execute(1);
 
-    }
 
 
 
-    private void zipPics() throws Exception {
-        final int BUFFER_SIZE = 2048;
-        File zipFile = null;
-        List<File>  all_pic_files;
+        new AsyncTask<Integer, Void, Void>() {
+            @Override
+            protected Void doInBackground(Integer... params) {
+                while (zipFile_ready == false) {
+                    try {
+                        Thread.sleep(500);
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    }
+                }
 
+                    Log.i(TAG, "--------  executeRemoteSCP    ---------->");
+                    String timeStamp = new SimpleDateFormat("yyyyMMdd_HHmmss").format(Calendar.getInstance().getTime());
+                    try {
+                        //executeRemoteCommand("usr", "pass","192.168.0.15", 22);
+                        executeRemoteSCP(Conf.USERNAME, valid_hostname, 22,
+                                pics_zip_location.getAbsolutePath(), "pic_" + timeStamp + ".zip");
+                        return null;
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    }
+                    return null;
 
-
-
-        //File root = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DCIM );
-        // because some devices do store pictures on different locations
-        File root = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DCIM  + "/Camera");
-        all_pic_files = this.getFilesOfDirectory(root, "jpg");
-
-        for (File strArr : all_pic_files) {
-            Log.i(TAG, "------------------>" + strArr.getAbsolutePath() );
-        }
-
-
-
-
-
-        try {
-            zipFile = new File(this.getExternalFilesDir(Environment.DIRECTORY_DOWNLOADS), "pics.zip");
-            if (!zipFile.exists())
-                zipFile.createNewFile();
-
-        } catch (Exception e) {
-            Log.e(TAG, "Unable to create pics.zip file.");
-        }
-
-
-
-
-        ZipOutputStream zipOut = new ZipOutputStream(new BufferedOutputStream( new FileOutputStream(zipFile) ));
-        for (File fileToZip : all_pic_files) {
-            FileInputStream fis = new FileInputStream(fileToZip);
-            ZipEntry zipEntry = new ZipEntry(fileToZip.getName());
-            zipOut.putNextEntry(zipEntry);
-
-            byte[] bytes = new byte[1024];
-            int length;
-            while((length = fis.read(bytes)) >= 0) {
-                zipOut.write(bytes, 0, length);
             }
-            fis.close();
-        }
-        zipOut.close();
+        }.execute(1);
 
 
     }
+
+
 
 
 

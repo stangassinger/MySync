@@ -1,12 +1,16 @@
 package com.stangassinger.mysync;
 
 
+import android.os.Environment;
 import android.util.Log;
 
 import com.jcraft.jsch.*;
 import java.io.*;
 import java.net.InetAddress;
+import java.util.List;
 import java.util.Properties;
+import java.util.zip.ZipEntry;
+import java.util.zip.ZipOutputStream;
 
 
 public class Scp_to{
@@ -189,6 +193,34 @@ public class Scp_to{
             }
         }
         return "";
+    }
+
+
+
+
+    public static void zipPics (List<File> all_pic_files, File zipFile) throws Exception {
+        final int BUFFER_SIZE = 2048;
+
+
+        for (File strArr : all_pic_files) {
+            Log.i(TAG, "------------------>" + strArr.getAbsolutePath() );
+        }
+
+
+        ZipOutputStream zipOut = new ZipOutputStream(new BufferedOutputStream( new FileOutputStream(zipFile) ));
+        for (File fileToZip : all_pic_files) {
+            FileInputStream fis = new FileInputStream(fileToZip);
+            ZipEntry zipEntry = new ZipEntry(fileToZip.getName());
+            zipOut.putNextEntry(zipEntry);
+
+            byte[] bytes = new byte[1024];
+            int length;
+            while((length = fis.read(bytes)) >= 0) {
+                zipOut.write(bytes, 0, length);
+            }
+            fis.close();
+        }
+        zipOut.close();
     }
 
 
