@@ -107,6 +107,9 @@ public class MainActivity extends AppCompatActivity {
 
 
     public void onClickShowAlert(View view) {
+        if (valid_hostname.length() == 0){
+            return;
+        }
         // Build the alert dialog.
         AlertDialog.Builder myAlertBuilder = new AlertDialog.Builder(MainActivity.this);
         // Set the dialog title.
