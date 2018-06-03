@@ -26,6 +26,7 @@ import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
+import android.widget.Button;
 import android.widget.Toast;
 import java.io.File;
 import java.io.BufferedOutputStream;
@@ -60,12 +61,16 @@ import static com.stangassinger.mysync.Scp_to.executeRemoteSCP;
 public class MainActivity extends AppCompatActivity {
     private final String TAG = "MainActivity";
     private List<File>  output;
+    private static String valid_hostname = "";
 
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        Button btn = (Button) findViewById(R.id.button1);
+        btn.setText("Searching for host ...");
 
 
         new AsyncTask<Integer, Void, Void>(){
@@ -75,6 +80,7 @@ public class MainActivity extends AppCompatActivity {
                 try {
                     host = checkHosts("192.168.0");
                     Log.i(TAG, "---  valid hostname  ------>" + host );
+                    valid_hostname = host;
                     return null;
                 } catch (Exception e) {
                     e.printStackTrace();
@@ -82,6 +88,8 @@ public class MainActivity extends AppCompatActivity {
                 return null;
             }
         }.execute(1);
+
+        
     }
 
 
