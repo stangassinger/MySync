@@ -74,10 +74,11 @@ public class MainActivity extends AppCompatActivity {
                 String host = "";
                 try {
                     host = checkHosts("192.168.0");
+                    Log.i(TAG, "---  valid hostname  ------>" + host );
+                    return null;
                 } catch (Exception e) {
                     e.printStackTrace();
                 }
-                Log.i(TAG, "---  valid hostname  ------>" + host );
                 return null;
             }
         }.execute(1);

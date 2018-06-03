@@ -173,7 +173,7 @@ public class Scp_to{
 
     public static String checkHosts(String subnet)
             throws Exception {
-        int timeout=500;
+        int timeout=1000;
         String out = "SSH_ERROR";
         for (int i=100;i<120;i++){
             String host=subnet + "." + i;
