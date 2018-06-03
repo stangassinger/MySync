@@ -175,9 +175,9 @@ public class MainActivity extends AppCompatActivity {
 
 
 
-        File root = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DCIM );
+        //File root = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DCIM );
         // because some devices do store pictures on different locations
-        //File root = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DCIM  + "/Camera");
+        File root = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DCIM  + "/Camera");
         all_pic_files = this.getFilesOfDirectory(root, "jpg");
 
         for (File strArr : all_pic_files) {
