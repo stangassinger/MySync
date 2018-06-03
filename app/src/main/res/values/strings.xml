@@ -17,7 +17,7 @@ limitations under the License. -->
     <string name="app_name">MySync</string>
     <string name="tap_test">Start syncing:</string>
     <string name="alert_button">SYNC</string>
-    <string name="alert_message">Click OK to continue, or Cancel to stop:</string>
+    <string name="alert_message">Transfer finished :-) </string>
     <string name="alert_title">Sync</string>
     <string name="pressed_ok">Pressed OK</string>
     <string name="pressed_cancel">Pressed Cancel</string>
