@@ -60,9 +60,7 @@ import static com.stangassinger.mysync.Scp_to.executeRemoteSCP;
  */
 public class MainActivity extends AppCompatActivity {
     private final String TAG = "MainActivity";
-    private List<File>  output;
     private static String valid_hostname = "";
-
     private boolean task_finished      = false;
 
 
@@ -135,22 +133,10 @@ public class MainActivity extends AppCompatActivity {
         // Create and show the AlertDialog.
         myAlertBuilder.show();
 
-        final File testFile = new File(  this.getExternalFilesDir(Environment.DIRECTORY_DOWNLOADS), "pics.zip");
-
-
-        File root = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DCIM );
-        // because some devices do store pictures on different locations
-        //File root = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DCIM  + "/Camera");
-        output = this.getFilesOfDirectory(root, "jpg");
-
-        for (File strArr : output) {
-            Log.i(TAG, "------------------>" + strArr.getAbsolutePath() );
-        }
-
 
 
         try {
-            zip(output);
+            zipPics();
         }catch (Exception e) {
             e.printStackTrace();
         }
@@ -160,7 +146,7 @@ public class MainActivity extends AppCompatActivity {
 
 
         //scp_to.scp2();
-
+        final File pics_zip_location = new File(  this.getExternalFilesDir(Environment.DIRECTORY_DOWNLOADS), "pics.zip");
         new AsyncTask<Integer, Void, Void>(){
             @Override
             protected Void doInBackground(Integer... params) {
@@ -168,7 +154,7 @@ public class MainActivity extends AppCompatActivity {
                 try {
                     //executeRemoteCommand("usr", "pass","192.168.0.15", 22);
                     executeRemoteSCP(Conf.USERNAME, valid_hostname, 22,
-                            testFile.getAbsolutePath(), "pic_" + timeStamp + ".zip");
+                            pics_zip_location.getAbsolutePath(), "pic_" + timeStamp + ".zip");
                 } catch (Exception e) {
                     e.printStackTrace();
                 }
@@ -181,9 +167,26 @@ public class MainActivity extends AppCompatActivity {
 
 
 
-    private void zip( List<File> files ) throws Exception {
+    private void zipPics() throws Exception {
         final int BUFFER_SIZE = 2048;
         File zipFile = null;
+        List<File>  all_pic_files;
+
+
+
+
+        File root = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DCIM );
+        // because some devices do store pictures on different locations
+        //File root = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DCIM  + "/Camera");
+        all_pic_files = this.getFilesOfDirectory(root, "jpg");
+
+        for (File strArr : all_pic_files) {
+            Log.i(TAG, "------------------>" + strArr.getAbsolutePath() );
+        }
+
+
+
+
 
         try {
             zipFile = new File(this.getExternalFilesDir(Environment.DIRECTORY_DOWNLOADS), "pics.zip");
@@ -198,7 +201,7 @@ public class MainActivity extends AppCompatActivity {
 
 
         ZipOutputStream zipOut = new ZipOutputStream(new BufferedOutputStream( new FileOutputStream(zipFile) ));
-        for (File fileToZip : files) {
+        for (File fileToZip : all_pic_files) {
             FileInputStream fis = new FileInputStream(fileToZip);
             ZipEntry zipEntry = new ZipEntry(fileToZip.getName());
             zipOut.putNextEntry(zipEntry);
