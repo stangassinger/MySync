@@ -135,7 +135,9 @@ public class MainActivity extends AppCompatActivity {
         final File testFile = new File(  this.getExternalFilesDir(Environment.DIRECTORY_DOWNLOADS), "pics.zip");
 
 
-        File root = Environment.getExternalStoragePublicDirectory(DIRECTORY_DCIM);
+        File root = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DCIM );
+        // because some devices do store pictures on different locations
+        //File root = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DCIM  + "/Camera");
         output = this.getFilesOfDirectory(root, "jpg");
 
         for (File strArr : output) {
