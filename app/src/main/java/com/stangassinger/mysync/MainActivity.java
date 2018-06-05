@@ -141,7 +141,7 @@ public class MainActivity extends AppCompatActivity {
 
         final List<File> all_pic_files;
         File root = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DCIM  + "/Camera");
-        all_pic_files = this.getFilesOfDirectory(root, "jpg");
+        all_pic_files = this.getFilesOfDirectory(root, "");
 
 
         new AsyncTask<Integer, Void, Void>(){
