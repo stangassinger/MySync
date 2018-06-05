@@ -62,7 +62,6 @@ import static com.stangassinger.mysync.Scp_to.zipPics;
 public class MainActivity extends AppCompatActivity {
     private final String TAG = "MainActivity";
     private static String valid_hostname = "";
-    private boolean task_finished      = false;
     private static boolean zipFile_ready      = false;
 
 
@@ -94,8 +93,11 @@ public class MainActivity extends AppCompatActivity {
             @Override
             protected void onPostExecute(Void aVoid) {
                 super.onPostExecute(aVoid);
-                task_finished = true;
-                btn.setText("Sync with " + valid_hostname);
+                if (valid_hostname.length() == 0){
+                    btn.setText("NO HOST FOUND !!");
+                }else {
+                    btn.setText("Sync with " + valid_hostname);
+                }
             }
 
 
