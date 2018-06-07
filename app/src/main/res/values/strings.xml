@@ -19,7 +19,7 @@ limitations under the License. -->
     <string name="alert_button">SYNC</string>
     <string name="alert_message">Transfer finished :-) </string>
     <string name="alert_title">Sync</string>
-    <string name="pressed_ok">Pressed OK</string>
+    <string name="please_wait">Please wait</string>
     <string name="pressed_cancel">Pressed Cancel</string>
     <string name="ok">OK</string>
     <string name="cancel">Cancel</string>
