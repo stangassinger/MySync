@@ -111,8 +111,8 @@ public class MainActivity extends AppCompatActivity {
         myAlertBuilder.setPositiveButton(R.string.ok, new DialogInterface.OnClickListener() {
             public void onClick(DialogInterface dialog, int which) {
                 // User clicked OK button.
-                Toast.makeText(getApplicationContext(), R.string.pressed_ok,
-                        Toast.LENGTH_SHORT).show();
+                Toast.makeText(getApplicationContext(), R.string.please_wait,
+                        Toast.LENGTH_LONG).show();
             }
         });
         myAlertBuilder.setNegativeButton(R.string.cancel, new DialogInterface.OnClickListener() {
